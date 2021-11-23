@@ -32,14 +32,30 @@ road = pygame.image.load(os.path.join("assets", "road.png")) #270 x 478
 bgy1 = 0
 bgy2 = road.get_height() * -1
 
+#Obstacles
+enemycar = pygame.image.load(os.path.join("assets", "enemycar1.png"))
+obstacles = []
+pygame.time.set_timer(USEREVENT+2, 5000)
+
 class Player:
     def __init__(self, x, y):
         self.x = x
         self.y = y
-        self.width = 20
-        self.height = 30
+        self.width = 64
+        self.height = 64
     def draw(self):
         screen.blit(car[carstage], (self.x, self.y))
+
+class Car:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.width = 46
+        self.height = 96
+    def draw(self):
+        screen.blit(enemycar, (self.x, self.y))
+    def move(self):
+        self.y += 5
 
 char = Player(153, 400)
 
@@ -55,6 +71,14 @@ def redraw():
     if bgy2 >= 478:
         bgy2 = road.get_height() * -1
     char.draw()
+    for o in obstacles:
+        opos = Rect(o.x, o.y, o.width, o.height)
+        playerpos = Rect(char.x, char.y, char.width, char.height)
+        if playerpos.colliderect(opos):
+            print("Collision")
+        o.draw()
+        o.move()
+        
 
 def movement():
     keypressed = pygame.key.get_pressed()
@@ -64,12 +88,25 @@ def movement():
     if keypressed[K_LEFT] and char.x == 262:
         char.x -= 109
 
+def obstacle():
+    global obstacles
+    roadside = random.randint(1, 2)
+
+    if roadside == 1:
+        obstacles.append(Car(162, -100))
+    elif roadside == 2:
+        obstacles.append(Car(271, -100))
+
+obstacle()
+
 while running:
     for e in pygame.event.get():
         if e.type == pygame.QUIT:
             running = False
         if e.type == USEREVENT+1:
             carstage += 1
+        if e.type == USEREVENT+2:
+            obstacle()
     
     bgy1 += 1
     bgy2 += 1
