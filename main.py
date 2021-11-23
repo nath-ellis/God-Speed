@@ -33,7 +33,11 @@ bgy1 = 0
 bgy2 = road.get_height() * -1
 
 #Obstacles
-enemycar = pygame.image.load(os.path.join("assets", "enemycar1.png"))
+enemycar1 = pygame.transform.scale(pygame.image.load(os.path.join("assets", "enemycar1.png")), ((46, 96)))
+enemycar2 = pygame.transform.scale(pygame.image.load(os.path.join("assets", "enemycar2.png")), ((46, 96)))
+enemycar3 = pygame.transform.scale(pygame.image.load(os.path.join("assets", "enemycar3.png")), ((46, 96)))
+enemycar4 = pygame.transform.scale(pygame.image.load(os.path.join("assets", "enemycar4.png")), ((46, 96)))
+truck1 = pygame.transform.scale(pygame.image.load(os.path.join("assets", "truck1.png")), ((46, 96)))
 obstacles = []
 pygame.time.set_timer(USEREVENT+2, 5000)
 
@@ -47,13 +51,21 @@ class Player:
         screen.blit(car[carstage], (self.x, self.y))
 
 class Car:
-    def __init__(self, x, y):
+    def __init__(self, x, y, type):
         self.x = x
         self.y = y
         self.width = 46
         self.height = 96
+        self.type = type
     def draw(self):
-        screen.blit(enemycar, (self.x, self.y))
+        if self.type == "blue1":
+            screen.blit(enemycar1, (self.x, self.y))
+        elif self.type == "green":
+            screen.blit(enemycar2, (self.x, self.y))
+        elif self.type == "blue2":
+            screen.blit(enemycar3, (self.x, self.y))
+        elif self.type == "pink":
+            screen.blit(enemycar4, (self.x, self.y))
     def move(self):
         self.y += 5
 
@@ -78,7 +90,6 @@ def redraw():
             print("Collision")
         o.draw()
         o.move()
-        
 
 def movement():
     keypressed = pygame.key.get_pressed()
@@ -91,11 +102,26 @@ def movement():
 def obstacle():
     global obstacles
     roadside = random.randint(1, 2)
+    t = random.randint(1, 4)
 
     if roadside == 1:
-        obstacles.append(Car(162, -100))
+        if t == 1:
+            obstacles.append(Car(162, -100, "blue1"))
+        elif t == 2:
+            obstacles.append(Car(162, -100, "green"))
+        elif t == 3:
+            obstacles.append(Car(162, -100, "blue2"))
+        elif t == 4:
+            obstacles.append(Car(162, -100, "pink"))
     elif roadside == 2:
-        obstacles.append(Car(271, -100))
+        if t == 1:
+            obstacles.append(Car(271, -100, "blue1"))
+        elif t == 2:
+            obstacles.append(Car(271, -100, "green"))
+        elif t == 3:
+            obstacles.append(Car(271, -100, "blue2"))
+        elif t == 4:
+            obstacles.append(Car(271, -100, "pink"))
 
 obstacle()
 

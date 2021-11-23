@@ -10,4 +10,8 @@ License: [https://creativecommons.org/licenses/by/4.0/](https://creativecommons.
 Title: Race Car \
 Author: rrcaseyr \
 URL: [https://opengameart.org/content/race-car](https://opengameart.org/content/race-car) \
-License: [http://creativecommons.org/licenses/by/3.0/](http://creativecommons.org/licenses/by/3.0/)
+License: [http://creativecommons.org/licenses/by/3.0/](http://creativecommons.org/licenses/by/3.0/) \
+Title: Small City Cars \
+Author: Pixel Shack \
+URL: [https://opengameart.org/content/small-city-cars](https://opengameart.org/content/small-city-cars) \
+License: [https://creativecommons.org/licenses/by/4.0/](https://creativecommons.org/licenses/by/4.0/)
