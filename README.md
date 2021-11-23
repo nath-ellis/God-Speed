@@ -14,4 +14,12 @@ License: [http://creativecommons.org/licenses/by/3.0/](http://creativecommons.or
 Title: Small City Cars \
 Author: Pixel Shack \
 URL: [https://opengameart.org/content/small-city-cars](https://opengameart.org/content/small-city-cars) \
-License: [https://creativecommons.org/licenses/by/4.0/](https://creativecommons.org/licenses/by/4.0/)
+License: [https://creativecommons.org/licenses/by/4.0/](https://creativecommons.org/licenses/by/4.0/) \
+Title: Pixel Explosion (12 Frames) \
+Author: JROB774 \
+URL: [https://opengameart.org/content/pixel-explosion-12-frames](https://opengameart.org/content/pixel-explosion-12-frames) \
+License: [http://creativecommons.org/licenses/by/3.0/](http://creativecommons.org/licenses/by/3.0/) \
+Title: Rumble/Explosion \
+Author: Michel Baradari \
+URL: [https://opengameart.org/content/rumbleexplosion](https://opengameart.org/content/rumbleexplosion) \
+License: [http://creativecommons.org/licenses/by/3.0/](http://creativecommons.org/licenses/by/3.0/)

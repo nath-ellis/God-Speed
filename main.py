@@ -1,10 +1,12 @@
 import pygame
 from pygame import *
 import random
+import time
 import os
 pygame.init()
 
 running = True
+gameOver = False
 
 clock = pygame.time.Clock()
 
@@ -41,6 +43,8 @@ truck1 = pygame.transform.scale(pygame.image.load(os.path.join("assets", "truck1
 obstacles = []
 pygame.time.set_timer(USEREVENT+2, 5000)
 
+explosionsfx = pygame.mixer.Sound(os.path.join("assets", "explosion.flac"))
+
 class Player:
     def __init__(self, x, y):
         self.x = x
@@ -72,7 +76,7 @@ class Car:
 char = Player(153, 400)
 
 def redraw():
-    global bgy1, bgy2
+    global bgy1, bgy2, obstacles, gameOver
     clock.tick(30)
     pygame.display.update()
     screen.fill(blue)
@@ -86,9 +90,12 @@ def redraw():
     for o in obstacles:
         opos = Rect(o.x, o.y, o.width, o.height)
         playerpos = Rect(char.x, char.y, char.width, char.height)
-        if playerpos.colliderect(opos):
-            print("Collision")
         o.draw()
+        if playerpos.colliderect(opos):
+            explosion()
+            obstacles = []
+            gameOver = True
+            break
         o.move()
 
 def movement():
@@ -124,6 +131,28 @@ def obstacle():
             obstacles.append(Car(271, -100, "pink"))
 
 obstacle()
+
+def explosion():
+    explosionimg = [
+        pygame.image.load(os.path.join("assets", "explosion1.png")),
+        pygame.image.load(os.path.join("assets", "explosion2.png")),
+        pygame.image.load(os.path.join("assets", "explosion3.png")),
+        pygame.image.load(os.path.join("assets", "explosion4.png")),
+        pygame.image.load(os.path.join("assets", "explosion5.png")),
+        pygame.image.load(os.path.join("assets", "explosion6.png")),
+        pygame.image.load(os.path.join("assets", "explosion7.png")),
+        pygame.image.load(os.path.join("assets", "explosion8.png")),
+        pygame.image.load(os.path.join("assets", "explosion9.png")),
+        pygame.image.load(os.path.join("assets", "explosion10.png")),
+        pygame.image.load(os.path.join("assets", "explosion11.png")),
+        pygame.image.load(os.path.join("assets", "explosion12.png"))
+    ]
+    pygame.mixer.Sound.play(explosionsfx)
+    for e in explosionimg:
+        screen.blit(e, (char.x - 20, char.y - 18))
+        pygame.display.update()
+        clock.tick(24)
+        
 
 while running:
     for e in pygame.event.get():
