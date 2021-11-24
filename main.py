@@ -45,7 +45,11 @@ enemycar3 = pygame.transform.scale(pygame.image.load(os.path.join("assets", "ene
 enemycar4 = pygame.transform.scale(pygame.image.load(os.path.join("assets", "enemycar4.png")), ((46, 96)))
 truck1 = pygame.transform.scale(pygame.image.load(os.path.join("assets", "truck1.png")), ((46, 96)))
 obstacles = []
-pygame.time.set_timer(USEREVENT+2, 5000)
+pygame.time.set_timer(USEREVENT+2, 1000)
+pygame.time.set_timer(USEREVENT+4, 3000, 5000)
+pygame.time.set_timer(USEREVENT+5, 2000, 3000)
+pygame.time.set_timer(USEREVENT+6, 1500, 2000)
+pygame.time.set_timer(USEREVENT+7, 1000, 1500)
 enemyspeed = 5
 
 explosionsfx = pygame.mixer.Sound(os.path.join("assets", "explosion.flac"))
@@ -101,9 +105,9 @@ def redraw():
     screen.blit(road, (105, bgy2))
     if not gameOver and not menuOpen:
         if bgy1 >= 478:
-            bgy1 = road.get_height() * -1
+            bgy1 = (road.get_height() - char.speed * 2.5) * -1
         if bgy2 >= 478:
-            bgy2 = road.get_height() * -1
+            bgy2 = (road.get_height() - char.speed * 2.5) * -1
         char.draw()
         #Lives
         if char.lives == 0:
@@ -146,6 +150,13 @@ def obstacle():
     global obstacles
     roadside = random.randint(1, 2)
     t = random.randint(1, 4)
+
+    if len(obstacles) >= 20:
+        del obstacles[0]
+        del obstacles[1]
+        del obstacles[2]
+        del obstacles[3]
+        del obstacles[4]
 
     if roadside == 1:
         if t == 1:
@@ -190,7 +201,7 @@ def explosion():
         clock.tick(24)
 
 def lose():
-    global gameOver, obstacles, ticks
+    global gameOver, obstacles, ticks, enemyspeed
 
     screen.blit(text.render("Game", True, (red)), (165, 50))
     screen.blit(text.render("Over", True, (red)), (170, 100))
@@ -202,18 +213,24 @@ def lose():
 
     ticks = 0
 
+    char.speed = 1
+    enemyspeed = 5
+
     mouseclick = pygame.mouse.get_pressed()
 
     if mouseclick[0]:
         gameOver = False
 
 def menu():
-    global menuOpen
+    global menuOpen, enemyspeed
     mouseclick = pygame.mouse.get_pressed()
 
     screen.blit(text.render("God", True, (white)), (185, 50))
     screen.blit(text.render("Speed", True, (white)), (150, 100))
     screen.blit(smalltext.render("Click to play", True, (white)), (152, 350))
+
+    char.speed = 1
+    enemyspeed = 5
 
     if mouseclick[0]:
         menuOpen = False
@@ -225,11 +242,20 @@ while running:
         if e.type == USEREVENT+1:
             carstage += 1
         if e.type == USEREVENT+2:
+            if char.speed < 6.9:
+                char.speed += 0.1
+            if enemyspeed < 10:
+                enemyspeed += 0.1
+        if e.type == USEREVENT+4 and ticks <= 40:
+            obstacle()
+        if e.type == USEREVENT+5 and ticks >= 41 and ticks <= 80:
+            obstacle()
+        if e.type == USEREVENT+6 and ticks >= 81 and ticks <= 99:
+            obstacle()
+        if e.type == USEREVENT+7 and ticks >= 100:
             obstacle()
         if e.type == USEREVENT+3 and not menuOpen and not gameOver:
             ticks += 1
-    
-    print(ticks)
 
     if not gameOver and not menuOpen:
         bgy1 += char.speed
