@@ -7,6 +7,7 @@ pygame.init()
 
 running = True
 gameOver = False
+menuOpen = True
 
 clock = pygame.time.Clock()
 
@@ -16,6 +17,9 @@ pygame.display.set_caption("God Speed")
 #pygame.display.set_icon(gameicon)
 
 blue = (25, 99, 145)
+white = (255, 255, 255)
+black = (0, 0, 0)
+red = (250, 9, 18)
 
 #The Car
 carimport = [
@@ -42,8 +46,19 @@ enemycar4 = pygame.transform.scale(pygame.image.load(os.path.join("assets", "ene
 truck1 = pygame.transform.scale(pygame.image.load(os.path.join("assets", "truck1.png")), ((46, 96)))
 obstacles = []
 pygame.time.set_timer(USEREVENT+2, 5000)
+enemyspeed = 5
 
 explosionsfx = pygame.mixer.Sound(os.path.join("assets", "explosion.flac"))
+
+#Lives
+life = pygame.image.load(os.path.join("assets", "lives.png"))
+
+ticks = 0
+pygame.time.set_timer(USEREVENT+3, 1000)
+
+#Text
+text = pygame.font.Font(os.path.join("assets", "kenpixel_blocks.ttf"), 50)
+smalltext = pygame.font.Font(os.path.join("assets", "kenpixel_blocks.ttf"), 20)
 
 class Player:
     def __init__(self, x, y):
@@ -51,8 +66,12 @@ class Player:
         self.y = y
         self.width = 64
         self.height = 64
+        self.speed = 1
+        self.lives = 3
     def draw(self):
         screen.blit(car[carstage], (self.x, self.y))
+
+char = Player(153, 400)
 
 class Car:
     def __init__(self, x, y, type):
@@ -71,9 +90,7 @@ class Car:
         elif self.type == "pink":
             screen.blit(enemycar4, (self.x, self.y))
     def move(self):
-        self.y += 5
-
-char = Player(153, 400)
+        self.y += enemyspeed
 
 def redraw():
     global bgy1, bgy2, obstacles, gameOver
@@ -82,21 +99,40 @@ def redraw():
     screen.fill(blue)
     screen.blit(road, (105, bgy1))
     screen.blit(road, (105, bgy2))
-    if bgy1 >= 478:
-        bgy1 = road.get_height() * -1
-    if bgy2 >= 478:
-        bgy2 = road.get_height() * -1
-    char.draw()
-    for o in obstacles:
-        opos = Rect(o.x, o.y, o.width, o.height)
-        playerpos = Rect(char.x, char.y, char.width, char.height)
-        o.draw()
-        if playerpos.colliderect(opos):
-            explosion()
-            obstacles = []
+    if not gameOver and not menuOpen:
+        if bgy1 >= 478:
+            bgy1 = road.get_height() * -1
+        if bgy2 >= 478:
+            bgy2 = road.get_height() * -1
+        char.draw()
+        #Lives
+        if char.lives == 0:
             gameOver = True
-            break
-        o.move()
+        else:
+            if char.lives == 3:
+                screen.blit(life, (10, 10))
+                screen.blit(life, (10, 56))
+                screen.blit(life, (10, 102))
+            if char.lives == 2:
+                screen.blit(life, (10, 10))
+                screen.blit(life, (10, 56))
+            if char.lives == 1:
+                screen.blit(life, (10, 10))
+        #Obstacles
+        for o in obstacles:
+            opos = Rect(o.x, o.y, o.width, o.height)
+            playerpos = Rect(char.x, char.y, char.width, char.height)
+            o.draw()
+            if playerpos.colliderect(opos):
+                explosion()
+                obstacles = []
+                char.lives -= 1
+                break
+            o.move()
+    elif gameOver:
+        lose()
+    elif menuOpen:
+        menu()
 
 def movement():
     keypressed = pygame.key.get_pressed()
@@ -152,7 +188,35 @@ def explosion():
         screen.blit(e, (char.x - 20, char.y - 18))
         pygame.display.update()
         clock.tick(24)
-        
+
+def lose():
+    global gameOver, obstacles, ticks
+
+    screen.blit(text.render("Game", True, (red)), (165, 50))
+    screen.blit(text.render("Over", True, (red)), (170, 100))
+    screen.blit(smalltext.render("Click to play", True, (white)), (152, 350))
+
+    obstacles = []
+
+    char.lives = 3
+
+    ticks = 0
+
+    mouseclick = pygame.mouse.get_pressed()
+
+    if mouseclick[0]:
+        gameOver = False
+
+def menu():
+    global menuOpen
+    mouseclick = pygame.mouse.get_pressed()
+
+    screen.blit(text.render("God", True, (white)), (185, 50))
+    screen.blit(text.render("Speed", True, (white)), (150, 100))
+    screen.blit(smalltext.render("Click to play", True, (white)), (152, 350))
+
+    if mouseclick[0]:
+        menuOpen = False
 
 while running:
     for e in pygame.event.get():
@@ -162,13 +226,18 @@ while running:
             carstage += 1
         if e.type == USEREVENT+2:
             obstacle()
+        if e.type == USEREVENT+3 and not menuOpen and not gameOver:
+            ticks += 1
     
-    bgy1 += 1
-    bgy2 += 1
+    print(ticks)
 
-    if carstage >= 2:
-        carstage = 0
+    if not gameOver and not menuOpen:
+        bgy1 += char.speed
+        bgy2 += char.speed
 
-    movement()
+        if carstage >= 2:
+            carstage = 0
+
+        movement()
 
     redraw()

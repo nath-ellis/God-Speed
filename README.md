@@ -22,4 +22,12 @@ License: [http://creativecommons.org/licenses/by/3.0/](http://creativecommons.or
 Title: Rumble/Explosion \
 Author: Michel Baradari \
 URL: [https://opengameart.org/content/rumbleexplosion](https://opengameart.org/content/rumbleexplosion) \
-License: [http://creativecommons.org/licenses/by/3.0/](http://creativecommons.org/licenses/by/3.0/)
+License: [http://creativecommons.org/licenses/by/3.0/](http://creativecommons.org/licenses/by/3.0/) \
+Title: Pixel Hearts \
+Author: TokyoGeisha \
+URL: [https://opengameart.org/content/pixel-hearts](https://opengameart.org/content/pixel-hearts) \
+License: [http://creativecommons.org/publicdomain/zero/1.0/](http://creativecommons.org/publicdomain/zero/1.0/) \
+Title: Kenney Fonts \
+Author: Kenney \
+URL: [https://opengameart.org/content/kenney-fonts](https://opengameart.org/content/kenney-fonts) \
+License: [http://creativecommons.org/publicdomain/zero/1.0/](http://creativecommons.org/publicdomain/zero/1.0/)
