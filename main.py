@@ -140,9 +140,9 @@ def redraw():
 def movement():
     keypressed = pygame.key.get_pressed()
 
-    if keypressed[K_RIGHT] and char.x == 153:
+    if keypressed[K_RIGHT] and char.x == 153 or keypressed[K_d] and char.x == 153:
         char.x += 109
-    if keypressed[K_LEFT] and char.x == 262:
+    if keypressed[K_LEFT] and char.x == 262 or keypressed[K_a] and char.x == 262:
         char.x -= 109
 
 def obstacle():
