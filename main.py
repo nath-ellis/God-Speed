@@ -63,6 +63,10 @@ pygame.time.set_timer(USEREVENT+3, 1000)
 text = pygame.font.Font(os.path.join("assets", "kenpixel_blocks.ttf"), 50)
 smalltext = pygame.font.Font(os.path.join("assets", "kenpixel_blocks.ttf"), 20)
 
+#Music
+pygame.mixer.music.load(os.path.join("assets", "MenuSong.mp3"))
+pygame.mixer.music.play(-1)
+
 class Player:
     def __init__(self, x, y):
         self.x = x
@@ -232,6 +236,7 @@ def menu():
     enemyspeed = 5
 
     if mouseclick[0]:
+        pygame.mixer.music.stop()
         menuOpen = False
 
 while running:

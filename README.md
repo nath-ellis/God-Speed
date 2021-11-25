@@ -30,4 +30,8 @@ License: [http://creativecommons.org/publicdomain/zero/1.0/](http://creativecomm
 Title: Kenney Fonts \
 Author: Kenney \
 URL: [https://opengameart.org/content/kenney-fonts](https://opengameart.org/content/kenney-fonts) \
-License: [http://creativecommons.org/publicdomain/zero/1.0/](http://creativecommons.org/publicdomain/zero/1.0/)
+License: [http://creativecommons.org/publicdomain/zero/1.0/](http://creativecommons.org/publicdomain/zero/1.0/) \
+Title: Driving \
+Author: tcarisland \
+URL: [https://opengameart.org/content/driving](https://opengameart.org/content/driving) \
+License: [https://creativecommons.org/licenses/by/4.0/](https://creativecommons.org/licenses/by/4.0/)
