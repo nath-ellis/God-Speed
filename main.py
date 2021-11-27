@@ -7,6 +7,7 @@ pygame.init()
 running = True
 gameOver = False
 menuOpen = True
+credit = False
 
 clock = pygame.time.Clock()
 
@@ -58,6 +59,8 @@ life = pygame.image.load(os.path.join("assets", "lives.png"))
 
 ticks = 0
 pygame.time.set_timer(USEREVENT+3, 1000)
+
+credittimer = 0
 
 #Text
 text = pygame.font.Font(os.path.join("assets", "kenpixel_blocks.ttf"), 50)
@@ -228,19 +231,37 @@ def lose():
         gameOver = False
 
 def menu():
-    global menuOpen, enemyspeed
+    global menuOpen, enemyspeed, credit, credittimer
     mouseclick = pygame.mouse.get_pressed()
 
-    screen.blit(text.render("God", True, (white)), (185, 50))
-    screen.blit(text.render("Speed", True, (white)), (150, 100))
-    screen.blit(smalltext.render("Click to play", True, (white)), (152, 350))
+    if not credit:
+        screen.blit(text.render("God", True, (white)), (185, 50))
+        screen.blit(text.render("Speed", True, (white)), (150, 100))
+        screen.blit(smalltext.render("Click to play", True, (white)), (152, 350))
+        screen.blit(smalltext.render("Credit", True, (white)), (5, 448))
+    else:
+        screen.fill(blue)
+        screen.blit(smalltext.render("The following work was used", True, (white)), (55, 10))
+        screen.blit(smalltext.render("Go Back", True, (white)), (5, 448))
 
     char.speed = 1
     enemyspeed = 5
+    credittimer -= 1
+
+    if credittimer <= 0:
+        credittimer = 0
 
     if mouseclick[0]:
-        pygame.mixer.music.stop()
-        menuOpen = False
+        pos = pygame.mouse.get_pos()
+        if pos[0] < 90 and pos[1] > 450 and not credit and credittimer <= 0:
+            credittimer += 10
+            credit = True
+        elif pos[0] < 100 and pos[1] > 450 and credit and credittimer <= 0:
+            credittimer += 10
+            credit = False
+        elif not credit and credittimer <= 0:
+            pygame.mixer.music.stop()
+            menuOpen = False
 
 while running:
     for e in pygame.event.get():
