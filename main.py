@@ -180,8 +180,6 @@ def obstacle():
         elif t == 4:
             obstacles.append(Car(271, -100, "pink"))
 
-obstacle()
-
 def explosion():
     explosionimg = [
         pygame.image.load(os.path.join("assets", "explosion1.png")),
