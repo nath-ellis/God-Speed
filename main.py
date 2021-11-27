@@ -33,7 +33,7 @@ for c in carimport:
 pygame.time.set_timer(USEREVENT+1, 150)
 
 #The background
-road = pygame.image.load(os.path.join("assets", "road.png")) #270 x 478
+road = pygame.transform.scale(pygame.image.load(os.path.join("assets", "road.png")), ((270, 600))) #270 x 478
 bgy1 = 0
 bgy2 = road.get_height() * -1
 
@@ -132,6 +132,8 @@ def redraw():
             o.draw()
             if playerpos.colliderect(opos):
                 explosion()
+                bgy1 = 0
+                bgy2 = road.get_height() * -1
                 obstacles = []
                 char.lives -= 1
                 break
@@ -202,11 +204,14 @@ def explosion():
         clock.tick(24)
 
 def lose():
-    global gameOver, obstacles, ticks, enemyspeed
+    global gameOver, obstacles, ticks, enemyspeed, bgy1, bgy2
 
     screen.blit(text.render("Game", True, (red)), (165, 50))
     screen.blit(text.render("Over", True, (red)), (170, 100))
     screen.blit(smalltext.render("Click to play", True, (white)), (152, 350))
+
+    bgy1 = 0
+    bgy2 = road.get_height() * -1
 
     obstacles = []
 
