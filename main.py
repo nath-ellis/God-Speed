@@ -274,13 +274,13 @@ while running:
                 char.speed += 0.1
             if enemyspeed < 10:
                 enemyspeed += 0.1
-        if e.type == USEREVENT+4 and ticks <= 40:
+        if e.type == USEREVENT+4 and ticks <= 40 and not gameOver and not menuOpen:
             obstacle()
-        if e.type == USEREVENT+5 and ticks >= 41 and ticks <= 80:
+        if e.type == USEREVENT+5 and ticks >= 41 and ticks <= 80 and not gameOver and not menuOpen:
             obstacle()
-        if e.type == USEREVENT+6 and ticks >= 81 and ticks <= 99:
+        if e.type == USEREVENT+6 and ticks >= 81 and ticks <= 99 and not gameOver and not menuOpen:
             obstacle()
-        if e.type == USEREVENT+7 and ticks >= 100:
+        if e.type == USEREVENT+7 and ticks >= 100 and not gameOver and not menuOpen:
             obstacle()
         if e.type == USEREVENT+3 and not menuOpen and not gameOver:
             ticks += 1
