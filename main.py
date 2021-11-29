@@ -295,3 +295,6 @@ while running:
         movement()
 
     redraw()
+
+pygame.quit()
+quit()
