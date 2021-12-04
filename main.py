@@ -110,9 +110,9 @@ def redraw():
     screen.blit(road, (105, bgy1))
     screen.blit(road, (105, bgy2))
     if not gameOver and not menuOpen:
-        if bgy1 >= 478:
+        if bgy1 >= 468:
             bgy1 = (road.get_height() - char.speed * 2.5) * -1
-        if bgy2 >= 478:
+        if bgy2 >= 468:
             bgy2 = (road.get_height() - char.speed * 2.5) * -1
         char.draw()
         #Lives
@@ -135,8 +135,6 @@ def redraw():
             o.draw()
             if playerpos.colliderect(opos):
                 explosion()
-                bgy1 = 0
-                bgy2 = road.get_height() * -1
                 obstacles = []
                 char.lives -= 1
                 break
@@ -165,6 +163,16 @@ def obstacle():
         del obstacles[2]
         del obstacles[3]
         del obstacles[4]
+        del obstacles[5]
+        del obstacles[6]
+        del obstacles[7]
+        del obstacles[8]
+        del obstacles[9]
+        del obstacles[10]
+        del obstacles[11]
+        del obstacles[12]
+        del obstacles[13]
+        del obstacles[14]
 
     if roadside == 1:
         if t == 1:
