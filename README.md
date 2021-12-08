@@ -4,7 +4,7 @@ This was made for the OGA Late Fall Game Jam and because I wanted to make a game
 Updates may come but I can't make any promises.
 
 ## Controls
-Left Arrow or A to move left
+Left Arrow or A to move left \
 Right Arrow or D to move right
 
 ## Credit
