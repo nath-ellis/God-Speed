@@ -2,6 +2,7 @@ import pygame
 from pygame import *
 import random
 import os
+from pygame_markdown import MarkdownRenderer
 pygame.init()
 
 running = True
@@ -69,6 +70,10 @@ smalltext = pygame.font.Font(os.path.join("assets", "kenpixel_blocks.ttf"), 20)
 #Music
 pygame.mixer.music.load(os.path.join("assets", "MenuSong.mp3"))
 pygame.mixer.music.play(-1)
+
+#MD Renderer
+md = MarkdownRenderer()
+md.set_markdown(os.path.join("assets", "credit.md"))
 
 class Player:
     def __init__(self, x, y):
@@ -241,6 +246,7 @@ def lose():
 def menu():
     global menuOpen, enemyspeed, credit, credittimer
     mouseclick = pygame.mouse.get_pressed()
+    mousex, mousey = pygame.mouse.get_pos()
 
     if not credit:
         screen.blit(text.render("God", True, (white)), (185, 50))
@@ -251,6 +257,10 @@ def menu():
         screen.fill(blue)
         screen.blit(smalltext.render("The following work was used", True, (white)), (55, 10))
         screen.blit(smalltext.render("Go Back", True, (white)), (5, 448))
+        md.set_area(screen, 0, 40, width=500, height=415)
+        md.set_color_background(25, 99, 145)
+        md.set_color_font(255, 255, 255)
+        md.display(pygame.event.get(), mousex, mousey, mouseclick)
 
     char.speed = 1
     enemyspeed = 5
