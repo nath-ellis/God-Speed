@@ -173,11 +173,6 @@ def obstacle():
         del obstacles[7]
         del obstacles[8]
         del obstacles[9]
-        del obstacles[10]
-        del obstacles[11]
-        del obstacles[12]
-        del obstacles[13]
-        del obstacles[14]
 
     if roadside == 1:
         if t == 1:
