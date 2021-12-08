@@ -66,6 +66,7 @@ credittimer = 0
 #Text
 text = pygame.font.Font(os.path.join("assets", "kenpixel_blocks.ttf"), 50)
 smalltext = pygame.font.Font(os.path.join("assets", "kenpixel_blocks.ttf"), 20)
+mediumtext = pygame.font.Font(os.path.join("assets", "kenpixel_blocks.ttf"), 25)
 
 #Music
 pygame.mixer.music.load(os.path.join("assets", "MenuSong.mp3"))
@@ -74,6 +75,13 @@ pygame.mixer.music.play(-1)
 #MD Renderer
 md = MarkdownRenderer()
 md.set_markdown(os.path.join("assets", "credit.md"))
+
+#Score
+score = 0
+hscore1 = open(os.path.join("assets", "highscore.txt"), "r")
+hscore1contents = hscore1.readlines()
+highscore = int(hscore1contents[0])
+hscore1.close()
 
 class Player:
     def __init__(self, x, y):
@@ -108,7 +116,7 @@ class Car:
         self.y += enemyspeed
 
 def redraw():
-    global bgy1, bgy2, obstacles, gameOver
+    global bgy1, bgy2, obstacles, gameOver, score
     clock.tick(30)
     pygame.display.update()
     screen.fill(blue)
@@ -120,19 +128,20 @@ def redraw():
         if bgy2 >= 468:
             bgy2 = (road.get_height() - char.speed * 3) * -1
         char.draw()
+        screen.blit(mediumtext.render(str(score), True, white), (5, 0))
         #Lives
         if char.lives == 0:
             gameOver = True
         else:
             if char.lives == 3:
-                screen.blit(life, (10, 10))
-                screen.blit(life, (10, 56))
-                screen.blit(life, (10, 102))
+                screen.blit(life, (5, 43))
+                screen.blit(life, (5, 84))
+                screen.blit(life, (5, 125))
             if char.lives == 2:
-                screen.blit(life, (10, 10))
-                screen.blit(life, (10, 56))
+                screen.blit(life, (5, 43))
+                screen.blit(life, (5, 84))
             if char.lives == 1:
-                screen.blit(life, (10, 10))
+                screen.blit(life, (5, 43))
         #Obstacles
         for o in obstacles:
             opos = Rect(o.x, o.y, o.width, o.height)
@@ -142,6 +151,7 @@ def redraw():
                 explosion()
                 obstacles = []
                 char.lives -= 1
+                score -= 500
                 break
             o.move()
     elif gameOver:
@@ -215,10 +225,11 @@ def explosion():
         clock.tick(24)
 
 def lose():
-    global gameOver, obstacles, ticks, enemyspeed, bgy1, bgy2
+    global gameOver, obstacles, ticks, enemyspeed, bgy1, bgy2, score, highscore
 
     screen.blit(text.render("Game", True, (red)), (165, 50))
     screen.blit(text.render("Over", True, (red)), (170, 100))
+    screen.blit(mediumtext.render(str(score), True, (white)), (5, 0))
     screen.blit(smalltext.render("Click to play", True, (white)), (152, 350))
 
     bgy1 = 0
@@ -230,12 +241,19 @@ def lose():
 
     ticks = 0
 
+    if score > highscore:
+        hscore2 = open(os.path.join("assets", "highscore.txt"), "w")
+        hscore2.write(str(score))
+        hscore2.close()
+        highscore = score
+
     char.speed = 1
     enemyspeed = 5
 
     mouseclick = pygame.mouse.get_pressed()
 
     if mouseclick[0]:
+        score = 0
         gameOver = False
 
 def menu():
@@ -248,6 +266,7 @@ def menu():
         screen.blit(text.render("Speed", True, (white)), (150, 100))
         screen.blit(smalltext.render("Click to play", True, (white)), (152, 350))
         screen.blit(smalltext.render("Credit", True, (white)), (5, 448))
+        screen.blit(mediumtext.render(str(highscore), True, (white)), (5, 0))
     else:
         screen.fill(blue)
         screen.blit(smalltext.render("The following work was used", True, (white)), (55, 10))
@@ -304,6 +323,8 @@ while running:
 
         if carstage >= 2:
             carstage = 0
+
+        score += 1
 
         movement()
 
