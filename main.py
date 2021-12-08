@@ -116,9 +116,9 @@ def redraw():
     screen.blit(road, (105, bgy2))
     if not gameOver and not menuOpen:
         if bgy1 >= 468:
-            bgy1 = (road.get_height() - char.speed * 2.5) * -1
+            bgy1 = (road.get_height() - char.speed * 3) * -1
         if bgy2 >= 468:
-            bgy2 = (road.get_height() - char.speed * 2.5) * -1
+            bgy2 = (road.get_height() - char.speed * 3) * -1
         char.draw()
         #Lives
         if char.lives == 0:
