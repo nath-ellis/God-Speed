@@ -1,7 +1,7 @@
 # God Speed
 A racing game where you need to move left and right to avoid incoming traffic. \
 This was made for the OGA Late Fall Game Jam and because I wanted to make a game. \
-Updates may come but I can't make any promises. \
+Updates may come but I can't make any promises.
 
 ## Controls
 Left Arrow or A to move left
