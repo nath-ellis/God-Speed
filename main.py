@@ -3,6 +3,7 @@ from pygame import *
 import random
 import os
 from pygame_markdown import MarkdownRenderer
+
 pygame.init()
 
 running = True
@@ -22,66 +23,67 @@ white = (255, 255, 255)
 black = (0, 0, 0)
 red = (250, 9, 18)
 
-#The Car
+# The Car
 carimport = [
     pygame.image.load(os.path.join("assets", "car1.png")),
     pygame.image.load(os.path.join("assets", "car2.png"))
-    ]
+]
 carstage = 0
 car = []
 for c in carimport:
     car.append(pygame.transform.scale(c, (64, 64)))
-#The car change timer
-pygame.time.set_timer(USEREVENT+1, 150)
+# The car change timer
+pygame.time.set_timer(USEREVENT + 1, 150)
 
-#The background
-road = pygame.transform.scale(pygame.image.load(os.path.join("assets", "road.png")), ((270, 600))) #270 x 478
+# The background
+road = pygame.transform.scale(pygame.image.load(os.path.join("assets", "road.png")), ((270, 600)))  # 270 x 478
 bgy1 = 0
 bgy2 = road.get_height() * -1
 
-#Obstacles
+# Obstacles
 enemycar1 = pygame.transform.scale(pygame.image.load(os.path.join("assets", "enemycar1.png")), ((46, 96)))
 enemycar2 = pygame.transform.scale(pygame.image.load(os.path.join("assets", "enemycar2.png")), ((46, 96)))
 enemycar3 = pygame.transform.scale(pygame.image.load(os.path.join("assets", "enemycar3.png")), ((46, 96)))
 enemycar4 = pygame.transform.scale(pygame.image.load(os.path.join("assets", "enemycar4.png")), ((46, 96)))
 truck1 = pygame.transform.scale(pygame.image.load(os.path.join("assets", "truck1.png")), ((46, 96)))
 obstacles = []
-pygame.time.set_timer(USEREVENT+2, 1000)
-pygame.time.set_timer(USEREVENT+4, 3000, 5000)
-pygame.time.set_timer(USEREVENT+5, 2000, 3000)
-pygame.time.set_timer(USEREVENT+6, 1500, 2000)
-pygame.time.set_timer(USEREVENT+7, 1000, 1500)
+pygame.time.set_timer(USEREVENT + 2, 1000)
+pygame.time.set_timer(USEREVENT + 4, 3000, 5000)
+pygame.time.set_timer(USEREVENT + 5, 2000, 3000)
+pygame.time.set_timer(USEREVENT + 6, 1500, 2000)
+pygame.time.set_timer(USEREVENT + 7, 1000, 1500)
 enemyspeed = 5
 
 explosionsfx = pygame.mixer.Sound(os.path.join("assets", "explosion.flac"))
 
-#Lives
+# Lives
 life = pygame.image.load(os.path.join("assets", "lives.png"))
 
 ticks = 0
-pygame.time.set_timer(USEREVENT+3, 1000)
+pygame.time.set_timer(USEREVENT + 3, 1000)
 
 credittimer = 0
 
-#Text
+# Text
 text = pygame.font.Font(os.path.join("assets", "kenpixel_blocks.ttf"), 50)
 smalltext = pygame.font.Font(os.path.join("assets", "kenpixel_blocks.ttf"), 20)
 mediumtext = pygame.font.Font(os.path.join("assets", "kenpixel_blocks.ttf"), 25)
 
-#Music
+# Music
 pygame.mixer.music.load(os.path.join("assets", "MenuSong.mp3"))
 pygame.mixer.music.play(-1)
 
-#MD Renderer
+# MD Renderer
 md = MarkdownRenderer()
 md.set_markdown(os.path.join("assets", "credit.md"))
 
-#Score
+# Score
 score = 0
 hscore1 = open(os.path.join("assets", "highscore.txt"), "r")
 hscore1contents = hscore1.readlines()
 highscore = int(hscore1contents[0])
 hscore1.close()
+
 
 class Player:
     def __init__(self, x, y):
@@ -91,10 +93,13 @@ class Player:
         self.height = 64
         self.speed = 1
         self.lives = 3
+
     def draw(self):
         screen.blit(car[carstage], (self.x, self.y))
 
+
 char = Player(153, 400)
+
 
 class Car:
     def __init__(self, x, y, type):
@@ -103,6 +108,7 @@ class Car:
         self.width = 46
         self.height = 96
         self.type = type
+
     def draw(self):
         if self.type == "blue1":
             screen.blit(enemycar1, (self.x, self.y))
@@ -112,8 +118,10 @@ class Car:
             screen.blit(enemycar3, (self.x, self.y))
         elif self.type == "pink":
             screen.blit(enemycar4, (self.x, self.y))
+
     def move(self):
         self.y += enemyspeed
+
 
 def redraw():
     global bgy1, bgy2, obstacles, gameOver, score
@@ -129,7 +137,7 @@ def redraw():
             bgy2 = (road.get_height() - char.speed * 3) * -1
         char.draw()
         screen.blit(mediumtext.render(str(score), True, white), (5, 0))
-        #Lives
+        # Lives
         if char.lives == 0:
             gameOver = True
         else:
@@ -142,7 +150,7 @@ def redraw():
                 screen.blit(life, (5, 84))
             if char.lives == 1:
                 screen.blit(life, (5, 43))
-        #Obstacles
+        # Obstacles
         for o in obstacles:
             opos = Rect(o.x, o.y, o.width, o.height)
             playerpos = Rect(char.x, char.y, char.width, char.height)
@@ -159,6 +167,7 @@ def redraw():
     elif menuOpen:
         menu()
 
+
 def movement():
     keypressed = pygame.key.get_pressed()
 
@@ -166,6 +175,7 @@ def movement():
         char.x += 109
     if keypressed[K_LEFT] and char.x == 262 or keypressed[K_a] and char.x == 262:
         char.x -= 109
+
 
 def obstacle():
     global obstacles
@@ -203,6 +213,7 @@ def obstacle():
         elif t == 4:
             obstacles.append(Car(271, -100, "pink"))
 
+
 def explosion():
     explosionimg = [
         pygame.image.load(os.path.join("assets", "explosion1.png")),
@@ -223,6 +234,7 @@ def explosion():
         screen.blit(e, (char.x - 20, char.y - 18))
         pygame.display.update()
         clock.tick(24)
+
 
 def lose():
     global gameOver, obstacles, ticks, enemyspeed, bgy1, bgy2, score, highscore
@@ -255,6 +267,7 @@ def lose():
     if mouseclick[0]:
         score = 0
         gameOver = False
+
 
 def menu():
     global menuOpen, enemyspeed, credit, credittimer
@@ -295,26 +308,27 @@ def menu():
             pygame.mixer.music.stop()
             menuOpen = False
 
+
 while running:
     for e in pygame.event.get():
         if e.type == pygame.QUIT:
             running = False
-        if e.type == USEREVENT+1:
+        if e.type == USEREVENT + 1:
             carstage += 1
-        if e.type == USEREVENT+2:
+        if e.type == USEREVENT + 2:
             if char.speed < 6.9:
                 char.speed += 0.1
             if enemyspeed < 10:
                 enemyspeed += 0.1
-        if e.type == USEREVENT+4 and ticks <= 40 and not gameOver and not menuOpen:
+        if e.type == USEREVENT + 4 and ticks <= 40 and not gameOver and not menuOpen:
             obstacle()
-        if e.type == USEREVENT+5 and ticks >= 41 and ticks <= 80 and not gameOver and not menuOpen:
+        if e.type == USEREVENT + 5 and ticks >= 41 and ticks <= 80 and not gameOver and not menuOpen:
             obstacle()
-        if e.type == USEREVENT+6 and ticks >= 81 and ticks <= 99 and not gameOver and not menuOpen:
+        if e.type == USEREVENT + 6 and ticks >= 81 and ticks <= 99 and not gameOver and not menuOpen:
             obstacle()
-        if e.type == USEREVENT+7 and ticks >= 100 and not gameOver and not menuOpen:
+        if e.type == USEREVENT + 7 and ticks >= 100 and not gameOver and not menuOpen:
             obstacle()
-        if e.type == USEREVENT+3 and not menuOpen and not gameOver:
+        if e.type == USEREVENT + 3 and not menuOpen and not gameOver:
             ticks += 1
 
     if not gameOver and not menuOpen:
