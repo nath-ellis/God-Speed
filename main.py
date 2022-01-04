@@ -153,9 +153,9 @@ def redraw():
         # Obstacles
         for o in obstacles:
             opos = Rect(o.x, o.y, o.width, o.height)
-            playerpos = Rect(char.x, char.y, char.width, char.height)
+            player_pos = Rect(char.x, char.y, char.width, char.height)
             o.draw()
-            if playerpos.colliderect(opos):
+            if player_pos.colliderect(opos):
                 explosion()
                 obstacles = []
                 char.lives -= 1
